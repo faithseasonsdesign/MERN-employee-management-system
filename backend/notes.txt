@@ -1,0 +1,25 @@
+
+
+REQUIREMENTS
+
+-> create the .env file [done]
+-> create the index.jx file [done]
+-> initialize the package.json file [done]
+
+-> firing app express app with error handling
+
+-> install express [done] -> import it [done] -> initialize express app [done]
+-> install nodemon [done] -> set it up [done]
+-> install dotenv  [done] -> configure it [done]  -> require("dotenv").config()
+-> install mongoose [done] -> require it [done] 
+-> install mongodb [done]
+
+-> set up middlewares[done]
+   -> next()[done]
+   -> json()[done]
+
+-> set up API endpoints or routes []
+
+-> connect to the database [done] -> wrap it around the server []
+
+-> set up models for schemas []
