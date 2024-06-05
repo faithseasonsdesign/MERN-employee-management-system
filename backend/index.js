@@ -1,44 +1,47 @@
 
 
 require("dotenv").config()
-
 const express = require("express")
 const app = express()
-const PORT = process.env.PORT | 3000
+const PORT = process.env.PORT || 3000
 
 
-//requires
+//imports
+const employeeRouter = require(`./routes/employeeRouter`)
 const mongoose = require("mongoose")
-const employeesRouter = require(`./${process.env.EMPLOYEEROUTES}`)
 //middlewares
 app.use(express.json())
-app.use(`/${process.env.EMPLOYEEROUTEHANDLER}`,employeesRouter)
+app.use(`/api/employees`,employeeRouter)
 app.use((err,req,res,next)=>{
     console.error(err.stack)
-    console.status(500).send("something broke")
+    console.log(`oops something went wrong ${err.message}`)
     next()
 })
 
 //connect to the database
-const CONNSTRING = process.env.CONNSTRING
-mongoose.connect(CONNSTRING,{})
+mongoose.connect(process.env.CONNSTRING,{})
 .then(()=>{
     startServer(PORT)
 })
-.catch((err)=>{
-    console.log(`failed to connect to the database ${err}`)
+.catch((error)=>{
+    console.error(`failed to connect to the database ${error.message}`)
 })
 
+//start the server
 const startServer = (port)=>{
-    app.listen(port,()=>{
-        console.log(`connected to the database and running application on localhost:/${port}`)
+    app.listen(PORT,()=>{
+        console.log(`connected to database and application running on localhost:/${port}`)
     })
-    .on("error",(err)=>{
-        if(err.code === 'EADDRINUSE'){
-            console.warn(`Port ${port} is in use trying another port`)
-            startServer(port+1) 
-        }else{
-            console.error(`Failed to start server: ${err.message}`)
+    .on("error",(error)=>{
+        if(error.code === "EADDRINUSE"){
+            console.warn(`${port} is currently in use trying another port...`)
+            startServer(port+1)
+        }
+        else{
+            console.error(`failed to start server ${error.message}`)
         }
     })
 }
+
+
+
